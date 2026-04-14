@@ -1,10 +1,20 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import redis
 import boto3
 import uuid
 from datetime import datetime
 
 app = FastAPI()
+
+# Allow frontend to call API from any domain (safe for demo)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Change to specific Vercel URL later for security
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Redis connection (same URL as your worker)
 r = redis.Redis.from_url(
